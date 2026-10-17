@@ -24,7 +24,7 @@ steps:
       repository: $(imageName)
       dockerfile: $(Build.SourcesDirectory)/src/Dockerfile
       buildContext: $(Build.SourcesDirectory)/src
-      containerRegistry: 'deploydev-tf'
+      containerRegistry: 'acrconnect'
       tags: |
         $(Build.BuildId)
         latest
