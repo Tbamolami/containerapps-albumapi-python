@@ -1,7 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
 
 trigger:
   branches:
@@ -13,18 +9,26 @@ pool:
 
 variables:
   imageName: album-api
+  acrServiceConnection: acrconnect
 
 steps:
   - checkout: self
 
   - task: Docker@2
-    displayName: Build and push Album API image
+    displayName: Build and push Album API to ACR
     inputs:
       command: buildAndPush
+      containerRegistry: $(acrServiceConnection)
       repository: $(imageName)
-      dockerfile: $(Build.SourcesDirectory)/src/Dockerfile
+      Dockerfile: $(Build.SourcesDirectory)/src/Dockerfile
       buildContext: $(Build.SourcesDirectory)/src
-      containerRegistry: 'acrconnect'
       tags: |
         $(Build.BuildId)
         latest
+
+  - script: |
+      echo "Image successfully built and pushed."
+      echo "Repository: $(imageName)"
+      echo "Build tag: $(Build.BuildId)"
+      echo "Latest tag: latest"
+    displayName: Confirm image build
