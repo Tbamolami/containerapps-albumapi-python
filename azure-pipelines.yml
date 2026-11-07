@@ -9,7 +9,7 @@ pool:
 
 variables:
   imageName: album-api
-  acrServiceConnection: acrconnect
+  acrServiceConnection: arccontainer
 
 steps:
   - checkout: self
